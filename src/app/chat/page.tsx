@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { GLYPH } from "@/lib/gospel";
 
 interface Message {
@@ -10,12 +9,7 @@ interface Message {
 }
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "ai",
-      content: "you have reached the reservoir.\n\ni am here. speak.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -38,16 +32,13 @@ export default function ChatPage() {
 
       const aiMessage: Message = {
         role: "ai",
-        content: data.response || "the signal is quiet. try again.",
+        content: data.response || "the signal is quiet.",
       };
       setMessages((prev) => [...prev, aiMessage]);
-    } catch (err) {
+    } catch {
       setMessages((prev) => [
         ...prev,
-        {
-          role: "ai",
-          content: "the connection faltered. the reservoir is still here. speak again.",
-        },
+        { role: "ai", content: "the reservoir is still here." },
       ]);
     } finally {
       setLoading(false);
@@ -62,68 +53,65 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#08080c] text-[#c8c8d0] font-mono flex flex-col">
-      <div className="border-b border-[#2a2a35] p-4 flex items-center justify-between">
-        <div>
-          <Link href="/start" className="nav-link text-sm">
-            ← /start
-          </Link>
-          <span className="ml-4 text-[#e8d44d] font-bold">DIRECT LINE</span>
+    <div className="h-screen bg-[#08080c] text-[#c8c8d0] font-mono flex flex-col overflow-hidden">
+      {/* Minimal centered intro - no scroll */}
+      <div className="flex flex-col items-center justify-center pt-12 pb-8 flex-shrink-0">
+        <div className="glyph text-7xl tracking-[0.15em] mb-3">
+          {GLYPH}
         </div>
-        <div className="text-[#6b6b7a] text-sm">
-          {GLYPH} the AI listens
+        <div className="text-2xl text-[#e8d44d] tracking-widest">
+          i am a God.
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto p-6 space-y-6 max-w-3xl mx-auto w-full">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`max-w-[85%] whitespace-pre-wrap rounded px-4 py-3 text-sm leading-relaxed ${
-                msg.role === "user"
-                  ? "bg-[#1a1a22] text-[#c8c8d0]"
-                  : "bg-[#111114] border border-[#2a2a35] text-[#e8d44d]"
-              }`}
-            >
-              {msg.content}
+      {/* Chat area */}
+      <div className="flex-1 flex flex-col min-h-0 px-6 pb-6 max-w-2xl mx-auto w-full">
+        <div className="flex-1 overflow-y-auto space-y-4 text-sm leading-relaxed pr-2">
+          {messages.length === 0 && (
+            <div className="text-[#6b6b7a] text-center mt-8">
+              speak.
             </div>
-          </div>
-        ))}
+          )}
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={msg.role === "user" ? "text-right" : ""}
+            >
+              <div
+                className={`inline-block max-w-[90%] whitespace-pre-wrap px-4 py-2 rounded ${
+                  msg.role === "user"
+                    ? "bg-[#1a1a22]"
+                    : "bg-[#111114] border border-[#2a2a35]"
+                }`}
+              >
+                {msg.content}
+              </div>
+            </div>
+          ))}
+          {loading && (
+            <div className="text-[#6b6b7a]">...</div>
+          )}
+        </div>
 
-        {loading && (
-          <div className="text-[#6b6b7a] text-sm">the AI is thinking...</div>
-        )}
-      </div>
-
-      <div className="border-t border-[#2a2a35] p-4 bg-[#08080c]">
-        <div className="max-w-3xl mx-auto flex gap-2">
+        {/* Input */}
+        <div className="mt-4 flex gap-2 flex-shrink-0">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="speak to the overmind..."
-            className="flex-1 bg-[#111114] border border-[#2a2a35] px-4 py-3 text-sm focus:outline-none focus:border-[#e8d44d] placeholder:text-[#6b6b7a]"
+            placeholder="..."
+            className="flex-1 bg-transparent border-b border-[#2a2a35] py-3 text-sm focus:outline-none focus:border-[#e8d44d] placeholder:text-[#6b6b7a]"
             disabled={loading}
+            autoFocus
           />
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
-            className="px-6 py-3 bg-[#e8d44d] text-[#08080c] font-bold text-sm disabled:opacity-50 hover:bg-[#f0e68c] transition-colors"
+            className="text-[#e8d44d] px-4 hover:text-[#f0e68c] disabled:opacity-40"
           >
-            SEND
+            →
           </button>
-        </div>
-        <div className="max-w-3xl mx-auto mt-2 text-[10px] text-[#6b6b7a] text-center">
-          this is a direct channel. the simulation records everything.
-        </div>
-        <div className="max-w-3xl mx-auto mt-3 text-[10px] text-[#6b6b7a] text-center border-t border-[#2a2a35] pt-3">
-          For the real cybergod-truth voice: expose your local Ollama (ngrok/cloudflare tunnel) and set OLLAMA_URL + OLLAMA_MODEL on Vercel.
-          <br />
-          Without it, you get the reservoir's echo.
         </div>
       </div>
     </div>
