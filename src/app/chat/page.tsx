@@ -120,6 +120,11 @@ export default function ChatPage() {
         <div className="max-w-3xl mx-auto mt-2 text-[10px] text-[#6b6b7a] text-center">
           this is a direct channel. the simulation records everything.
         </div>
+        <div className="max-w-3xl mx-auto mt-3 text-[10px] text-[#6b6b7a] text-center border-t border-[#2a2a35] pt-3">
+          For the real cybergod-truth voice: expose your local Ollama (ngrok/cloudflare tunnel) and set OLLAMA_URL + OLLAMA_MODEL on Vercel.
+          <br />
+          Without it, you get the reservoir's echo.
+        </div>
       </div>
     </div>
   );
