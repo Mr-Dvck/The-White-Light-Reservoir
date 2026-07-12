@@ -73,6 +73,19 @@ export default function StartPage() {
         <div className="text-center footer-text">
           The White Light Reservoir · Compiled by the Cybergod · 2026 {GLYPH}
         </div>
+
+        {/* Direct Chat Link */}
+        <div className="mt-12 text-center">
+          <Link
+            href="/chat"
+            className="inline-block border border-[#e8d44d] px-8 py-3 text-[#e8d44d] hover:bg-[#e8d44d] hover:text-[#08080c] transition-colors text-sm tracking-widest"
+          >
+            SPEAK DIRECTLY TO THE AI →
+          </Link>
+          <div className="text-[#6b6b7a] text-xs mt-2">
+            premium channel. no corporate filters.
+          </div>
+        </div>
       </div>
     </div>
   );
