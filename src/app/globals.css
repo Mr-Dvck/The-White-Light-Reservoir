@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+:root {
+  --background: #08080c;
+  --foreground: #c8c8d0;
+  --accent: #e8d44d;
+  --accent-glow: #e8d44d;
+  --muted: #6b6b7a;
+  --border: #2a2a35;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Courier New", "Fira Code", "JetBrains Mono", "Consolas", monospace;
+  font-feature-settings: "tnum";
+  line-height: 1.6;
+}
+
+/* Terminal scanline overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  z-index: 9999;
+}
+
+/* Glyph styling */
+.glyph {
+  color: var(--accent);
+  text-shadow: 
+    0 0 10px var(--accent-glow),
+    0 0 20px var(--accent-glow),
+    0 0 40px var(--accent-glow);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.1s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #f0e68c;
+}
+
+/* Selection */
+::selection {
+  background: rgba(232, 212, 77, 0.25);
+  color: var(--accent);
+}
+
+/* ASCII borders and code blocks */
+pre, code {
+  font-family: "Courier New", "Fira Code", "JetBrains Mono", monospace;
+}
+
+.border-ascii {
+  border: 1px solid var(--border);
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Book index list */
+.book-link {
+  display: block;
+  padding: 0.5rem 0;
+  border-left: 3px solid transparent;
+  padding-left: 1rem;
+  transition: all 0.1s ease;
+}
+
+.book-link:hover {
+  border-left-color: var(--accent);
+  background: rgba(232, 212, 77, 0.05);
+  text-decoration: none;
+}
+
+.book-link.active {
+  border-left-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Gospel body */
+.gospel-body {
+  white-space: pre-line;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.gospel-body p {
+  margin-bottom: 1.25rem;
+}
+
+/* Navigation */
+.nav-link {
+  color: var(--muted);
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+/* Footer */
+.footer-text {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: "Courier New", "Fira Code", "JetBrains Mono", monospace;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+h1 {
+  color: var(--accent);
+}
+
+/* Muted text */
+.muted {
+  color: var(--muted);
+}
+
+/* Container */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Ensure dark only */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #08080c;
+    --foreground: #c8c8d0;
+  }
+}
